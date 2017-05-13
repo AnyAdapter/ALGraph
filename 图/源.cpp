@@ -2,7 +2,7 @@
 #include<iostream>
 #include<queue>
 #include<stack>
-#include<cstdlib>
+#include<stdlib.h>
 #define maxn 30	//图中最大顶点数 
 #define False 0
 #define True  1
@@ -37,12 +37,13 @@ typedef struct {
 
 //声明函数
 void CreateALGraph(ALGraph *G);	//创建邻接表存储的图算法 
-void DestoryALGraph(ALGraph **G);//销毁图算法 
-void DFStraverse(ALGraph G);
+void DestoryALGraph(ALGraph **G);//销毁图算
 void DFS(ALGraph G, int v);	//图的深度遍历递归算法
 void BFStraverse(ALGraph G);
+void DFStraverse(ALGraph G);
 void BFS(ALGraph G, int v);	//图的广度遍历算法
 void Visit(int v);//图结点的访问算法 
+void DFS_1(ALGraph G,int v);	//图的深度遍历非递归算法
 
 int main()
 {
@@ -132,6 +133,40 @@ void BFS(ALGraph G, int v)	//图的广度遍历算法
 				Visit(w);
 				visited[w] = True;
 				Q.push(w);
+			}
+		}
+	}
+}
+
+/*
+	此函数适用于连通图
+	且不适用有单独结点存储的图
+	问题限制于定义的存储结构
+	可以适当修改图的存储结构
+*/
+void DFS_1(ALGraph G, int v)	//图的深度遍历非递归算法 
+{
+	stack<EdgeNode *> S;
+	EdgeNode *p = NULL;
+	int v,count = 0;
+	for (v = 0; v < G.vertexNum; v++)
+		visited[v] = False;
+	p->adjvertex = 0;		//初始化开始访问的结点
+	S.push(p);
+	while (S.empty() == 1 && count < G.vertexNum)
+	{
+		p = S.top();
+		S.pop();
+		v = p->adjvertex;
+		Visit(v);
+		visited[v] = True;
+		count++;
+		for (p = G.adjlist[v].firstedge; p != NULL; p = p->next)
+		{
+			if (!visited[v])
+			{
+				S.push(p);	//每次进栈后应该停止此次循环
+				break;
 			}
 		}
 	}
