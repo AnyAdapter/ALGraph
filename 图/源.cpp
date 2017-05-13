@@ -153,7 +153,7 @@ void DFS_1(ALGraph G, int v)	//图的深度遍历非递归算法
 		visited[v] = False;
 	p->adjvertex = 0;		//初始化开始访问的结点
 	S.push(p);
-	while (S.empty() == 1 && count < G.vertexNum)
+	while (S.empty() == 0 && count < G.vertexNum)
 	{
 		p = S.top();
 		S.pop();
